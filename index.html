@@ -9,7 +9,24 @@
 </head>
 
 <body>
-    <h1>Color Select</h1>
+    <div class="header">
+        <h1 class="header__title">Color Select Game</h1>
+        <h3 class="header__color"></h3>
+        <div class="header__control-bar">
+            <a href="#" class="header__button js-new-game-btn">
+                New Colors
+            </a>
+            <a href="#" class="header__button js-difficulty-btn" data-difficulty="easy">
+                Easy
+            </a>
+            <a href="#" class="header__button js-difficulty-btn" data-difficulty="hard">
+                Hard
+            </a>
+        </div>
+    </div>
+
+    <div class="color-block-container"></div>
+
 </body>
 
 <script type="text/javascript" src="/dist/scripts/index.js"></script>
