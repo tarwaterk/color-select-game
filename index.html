@@ -5,27 +5,38 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Color Select</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/dist/styles/index.css" />
 </head>
 
 <body>
+    <div class="message-container">
+        <p class="message message--success">
+            SUCCESS!
+        </p>
+
+        <p class="message message--failure">
+            FAILURE!
+        </p>
+    </div>
+
     <div class="header">
         <h1 class="header__title">Color Select Game</h1>
         <h3 class="header__color"></h3>
         <div class="header__control-bar">
-            <a href="#" class="header__button js-new-game-btn">
+            <a href="#" class="header__button header__button--new js-new-game-btn">
                 New Colors
             </a>
-            <a href="#" class="header__button js-difficulty-btn" data-difficulty="easy">
+            <a href="#" class="header__button header__button--easy js-difficulty-btn" data-difficulty="easy">
                 Easy
             </a>
-            <a href="#" class="header__button js-difficulty-btn" data-difficulty="hard">
+            <a href="#" class="header__button header__button--hard js-difficulty-btn" data-difficulty="hard">
                 Hard
             </a>
         </div>
     </div>
 
-    <div class="color-block-container"></div>
+    <div class="color-block-container color-block-container--hard"></div>
 
 </body>
 
