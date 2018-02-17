@@ -5,13 +5,8 @@ import {getRandomNumber} from './helpers';
 window.onload = () => {
     gameState.blockContainer = document.querySelector(".color-block-container");
     gameState.displayedColorContainer = document.querySelector(".header__color");
-    gameState.currentColors = colorGenerator(gameState.numberOfBlocks);
-    gameState.currentColorBlocks = gameLogic.createBlocks(gameState.currentColors);
-    gameState.displayedColor = gameLogic.selectDisplayedColor(gameState.currentColors);
-
-    gameLogic.appendDisplayedColor(gameState.displayedColor, gameState.displayedColorContainer);
-    gameLogic.appendBlocks(gameState.currentColorBlocks, gameState.blockContainer, gameLogic.addBlockEventListeners);
     gameLogic.addButtonEventListeners();
+    gameLogic.createNewGame();
 }
 
 var gameState = {
@@ -28,14 +23,18 @@ var gameLogic = {
         let newGameBtn = document.querySelector(".js-new-game-btn");
         let difficultyBtns = document.querySelectorAll(".js-difficulty-btn");
 
-        newGameBtn.addEventListener("click", () => {
-            let colors = colorGenerator(6);
-            console.log(colors);
+        newGameBtn.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            gameLogic.createNewGame();
         });
 
         difficultyBtns.forEach((button) => {
-            button.addEventListener("click", () => {
-                console.log("difficulty button");
+            button.addEventListener("click", (event) => {
+                event.preventDefault();
+
+                let difficulty = event.target.dataset.difficulty;
+                gameLogic.setDifficulty(difficulty);
             });
         });
     },
@@ -53,21 +52,53 @@ var gameLogic = {
                 };
 
                 let colorsMatch = gameLogic.compareColors(gameState.displayedColor, blockColor);
+                if(colorsMatch) {
+                    gameLogic.handleSuccess();
+                } else {
+                    gameLogic.handleFailure();
+                }
             });
         });
     },
     compareColors: (color1, color2) => {
-        console.log(color1, color2);
         let redMatches = color1.red === color2.red;
         let greenMatches = color1.green === color2.green;
         let blueMatches = color1.blue === color2.blue;
 
         if(redMatches && greenMatches && blueMatches) {
-            console.log("MATCH!");
             return true;
         }
 
         return false;
+    },
+    handleSuccess: () => {
+        console.log("success");
+        gameLogic.createNewGame();
+    },
+    handleFailure: () => {
+        console.log("failure");
+    },
+    createNewGame: () => {
+        gameState.currentColors = colorGenerator(gameState.numberOfBlocks);
+        gameState.currentColorBlocks = gameLogic.createBlocks(gameState.currentColors);
+        gameState.displayedColor = gameLogic.selectDisplayedColor(gameState.currentColors);
+
+        gameLogic.appendDisplayedColor(gameState.displayedColor, gameState.displayedColorContainer);
+        gameLogic.appendBlocks(gameState.currentColorBlocks, gameState.blockContainer, gameLogic.addBlockEventListeners);
+    },
+    setDifficulty: (difficultyLevel) => {
+        switch(difficultyLevel) {
+            case 'easy':
+                gameState.numberOfBlocks = 4;
+                break;
+            case 'hard':
+                gameState.numberOfBlocks = 6;
+                break;
+        }
+
+        gameLogic.createNewGame();
+
+        return gameState.numberOfBlocks;
     },
     createBlocks: (colorArray = []) => {
         let colorBlocks = [];
@@ -81,7 +112,7 @@ var gameLogic = {
         return colorBlocks;
     },
     selectDisplayedColor: (colorArray) => {
-        var index = getRandomNumber(0,6);
+        var index = getRandomNumber(0,5);
         
         return colorArray[index];
     },
@@ -92,6 +123,12 @@ var gameLogic = {
         return colorText;
     },
     appendBlocks: (colorBlocksArray = [], containerElement, callback) => {
+        //clear out element to contain the blocks
+        while(containerElement.firstChild) {
+            containerElement.removeChild(containerElement.firstChild);
+        }
+
+        //add blocks to containing element
         colorBlocksArray.forEach((colorBlock) => {
             containerElement.appendChild(colorBlock);
         });
