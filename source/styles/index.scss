@@ -1,9 +1,102 @@
+$gray: #495159;
+$lightGray: #8B9095;
+$darkGray: #2F3439;
+
 * {
     box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+    color: #FFF;
+}
+
+body {
+    margin: 0;
+    background: $gray;
+}
+
+.header {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+}
+
+.header__control-bar {
+    display: flex;
+    justify-content: space-between;
+    background: $darkGray;
+}
+
+.header__button {
+    text-decoration: none;
+    padding: .5em 1em;
+    text-transform: uppercase;
+    transition: all 300ms ease;
+
+    &:hover {
+        background: $lightGray;
+    }
+}
+
+.header__button--new {
+    border-right: 1px solid $lightGray;
+}
+
+.header__button--easy {
+    margin-left: auto;
+    border-left: 1px solid $lightGray;
+    border-right: 1px solid $lightGray;
+}
+
+.color-block-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: auto;
+}
+
+.color-block-container--easy {
+    max-width: 300px;
+}
+
+.color-block-container--hard {
+    max-width: 400px;
 }
 
 .color-block {
     display: block;
     height: 100px;
     width: 100px;
+    margin: 1em;
+    border: 3px solid #FFF;
+    border-radius: 4px;
+}
+
+.message-container {
+    visibility: hidden;
+    height: 0;
+    text-align: center;
+}
+
+.message {
+    position: relative;
+    top: 20vh;
+    margin: 0;
+    font-size: 1em;
+    opacity: 0;
+    transition: all 500ms ease;
+
+    &.active {
+        visibility: visible;
+        opacity: 1;
+        font-size: 4em;
+    }
+}
+
+.message--success {
+    color: green;
+}
+
+.message--failure {
+    color: red;
 }
