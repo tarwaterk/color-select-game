@@ -34,7 +34,7 @@ var gameLogic = {
                 event.preventDefault();
 
                 let difficulty = event.target.dataset.difficulty;
-                gameLogic.setDifficulty(difficulty);
+                gameLogic.setDifficulty(difficulty, gameState.blockContainer);
             });
         });
     },
@@ -72,11 +72,19 @@ var gameLogic = {
         return false;
     },
     handleSuccess: () => {
-        console.log("success");
+        let successElement = document.querySelector(".message--success");
+        successElement.classList.add("active");
+        window.setTimeout(()=>{
+            successElement.classList.remove("active");
+        }, 500);
         gameLogic.createNewGame();
     },
     handleFailure: () => {
-        console.log("failure");
+        let failureElement = document.querySelector(".message--failure");
+        failureElement.classList.add("active");
+        window.setTimeout(()=>{
+            failureElement.classList.remove("active");
+        }, 500);
     },
     createNewGame: () => {
         gameState.currentColors = colorGenerator(gameState.numberOfBlocks);
@@ -86,13 +94,17 @@ var gameLogic = {
         gameLogic.appendDisplayedColor(gameState.displayedColor, gameState.displayedColorContainer);
         gameLogic.appendBlocks(gameState.currentColorBlocks, gameState.blockContainer, gameLogic.addBlockEventListeners);
     },
-    setDifficulty: (difficultyLevel) => {
+    setDifficulty: (difficultyLevel, blockContainer) => {
         switch(difficultyLevel) {
             case 'easy':
                 gameState.numberOfBlocks = 4;
+                blockContainer.classList.remove("color-block-container--hard");
+                blockContainer.classList.add("color-block-container--easy");
                 break;
             case 'hard':
                 gameState.numberOfBlocks = 6;
+                blockContainer.classList.remove("color-block-container--easy");
+                blockContainer.classList.add("color-block-container--hard");
                 break;
         }
 
@@ -112,7 +124,7 @@ var gameLogic = {
         return colorBlocks;
     },
     selectDisplayedColor: (colorArray) => {
-        var index = getRandomNumber(0,5);
+        var index = getRandomNumber(0, gameState.numberOfBlocks - 1);
         
         return colorArray[index];
     },
