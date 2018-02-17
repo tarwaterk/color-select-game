@@ -1,3 +1,4 @@
+import {getRandomNumber} from './helpers';
 
 export default (numberOfColors) => {
     /*******
@@ -19,8 +20,4 @@ export default (numberOfColors) => {
     }
 
     return colorArray;
-}
-
-var getRandomNumber = (min, max) => {
-  return Math.round(Math.random() * (max - min) + min);
 }
